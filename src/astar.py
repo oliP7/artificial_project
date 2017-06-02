@@ -1,3 +1,4 @@
+# Remember that A* is also best-first search.
 import numpy as np
 
 # A path representation for A*
