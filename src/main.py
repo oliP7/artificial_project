@@ -36,7 +36,7 @@ def main():
     # Startup code
     pygame.init()
     screen = pygame.display.set_mode((800, 700))
-    pygame.display.set_caption("Carolina Games Summit")
+    pygame.display.set_caption("Artificial intelligence - Implementation of A* into simple game")
     images = loadImages()
 
     # The game world.
@@ -131,8 +131,7 @@ def main():
             acceleration += [-1, 0]
         elif pressed_keys[K_RIGHT]:
             acceleration += [1, 0]
-
-        if pressed_keys[K_UP]:
+        elif pressed_keys[K_UP]:
             acceleration += [0, -1]
         elif pressed_keys[K_DOWN]:
             acceleration += [0, 1]
