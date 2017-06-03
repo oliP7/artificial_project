@@ -17,7 +17,7 @@ MAX_ENEMY_SPEED = 20
 # Audio TRACKS; easy to implement. Get TRACKS at:
 # http://www.nosoapradio.us/
 TRACKS = [
-    "song_1.mp3", "song_2.mp3", "song_3.mp3", "song_4.mp3"
+    "song_1.ogg", "song_2.ogg", "song_3.ogg", "song_4.ogg"
 ]
 
 
@@ -289,8 +289,7 @@ def backgroundMusic():
         pygame.mixer.music.fadeout(1000)
     else:
         pygame.mixer.music.load("../res/music/" + random.choice(TRACKS))
-        pygame.mixer.music.play(-1)
-
+        pygame.mixer.music.play(loops = -1)
 
 def refreshBlit():
     global screen, enemy, player, tiles, world
