@@ -12,25 +12,13 @@ class World():
     TILE_VISIBLE_HEIGHT = 130
     TILE_VISIBLE_WIDTH = 101
 
-    # A giant list representing the world model.
-    # We want it such that in level[x][y], the x will select the column and
-    # the y will select the row.
-
-    # In doing so, each sub-list in the level list is column-wise, not
-    # row-wise.
-
 
     def __init__(self, images, level):
 
         self.level = level
         self.images = images
-        pass
 
     def renderWorld(self):
-
-        # Reminder: left (x), top (y)
-        # such that len(self.level) is top/height (y)
-        # and len(self.level[0]) is left/width (x)
 
         width = len(self.level) * self.TILE_WIDTH
         height = len(self.level[0]) * self.TILE_HEIGHT

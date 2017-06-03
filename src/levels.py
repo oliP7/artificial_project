@@ -76,6 +76,88 @@ EASY = {
          ]
     ],
 
+    # Start positions on the player and the enemy
+    'player': [80, 400],
+    'enemy': [300, 200]
+}
+
+# The initialization of a Medium level.
+MEDIUM = {
+
+    'name': "MEDIUM",
+    'level': [
+
+        # Column 1
+        ['dirt block',
+         'dirt block',
+         'wall block',
+         'grass block',
+         'grass block',
+         'grass block',
+         'grass block',
+         ],
+
+        # Column 2
+        ['dirt block',
+         'dirt block',
+         'wall block',
+         'stone block',
+         'stone block',
+         'wall block',
+         'wall block',
+         ],
+
+        # Column 3
+        ['water block',
+         'dirt block',
+         'wall block',
+         'stone block',
+         'stone block',
+         'grass block',
+         'grass block',
+         ],
+
+        # Column 4
+        ['water block',
+         'ramp block',
+         'water block',
+         'stone block',
+         'stone block',
+         'grass block',
+         'grass block',
+         ],
+
+        # Column 5
+        ['water block',
+         'ramp block',
+         'water block',
+         'stone block',
+         'stone block',
+         'grass block',
+         'grass block',
+         ],
+
+        # Column 6
+        ['water block',
+         'ramp block',
+         'ramp block',
+         'stone block',
+         'stone block',
+         'stone block',
+         'stone block',
+         ],
+
+        # Column 7
+        ['water block',
+         'water block',
+         'water block',
+         'stone block',
+         'stone block',
+         'stone block',
+         'stone block',
+         ]
+    ],
+
     'player': [80, 400],
     'enemy': [300, 200]
 }
@@ -159,85 +241,3 @@ HARD = {
     'player': [80, 500],
     'enemy': [300, 200]
 }
-
-# A moderate difficulty level.
-MEDIUM = {
-
-    'name': "MEDIUM",
-    'level': [
-
-        # Column 1
-        ['dirt block',
-         'dirt block',
-         'wall block',
-         'grass block',
-         'grass block',
-         'grass block',
-         'grass block',
-         ],
-
-        # Column 2
-        ['dirt block',
-         'dirt block',
-         'wall block',
-         'stone block',
-         'stone block',
-         'wall block',
-         'wall block',
-         ],
-
-        # Column 3
-        ['water block',
-         'dirt block',
-         'wall block',
-         'stone block',
-         'stone block',
-         'grass block',
-         'grass block',
-         ],
-
-        # Column 4
-        ['water block',
-         'ramp block',
-         'water block',
-         'stone block',
-         'stone block',
-         'grass block',
-         'grass block',
-         ],
-
-        # Column 5
-        ['water block',
-         'ramp block',
-         'water block',
-         'stone block',
-         'stone block',
-         'grass block',
-         'grass block',
-         ],
-
-        # Column 6
-        ['water block',
-         'ramp block',
-         'ramp block',
-         'stone block',
-         'stone block',
-         'stone block',
-         'stone block',
-         ],
-
-        # Column 7
-        ['water block',
-         'water block',
-         'water block',
-         'stone block',
-         'stone block',
-         'stone block',
-         'stone block',
-         ]
-    ],
-
-    'player': [80, 400],
-    'enemy': [300, 200]
-}
-

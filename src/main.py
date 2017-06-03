@@ -8,14 +8,13 @@ from agent import Agent
 from world import World
 from pygame.locals import *
 
-# Set these constants before starting the game.
+# Set the initial values for the level, and maximum speed of the player and the enemy in the game.
 FPS = 20
 LEVEL = levels.EASY
-MAX_PLAYER_SPEED = 100
+MAX_PLAYER_SPEED = 40
 MAX_ENEMY_SPEED = 20
 
-# Audio TRACKS; easy to implement. Get TRACKS at:
-# http://www.nosoapradio.us/
+#Array of audio for the background music
 TRACKS = [
     "song_1.ogg", "song_2.ogg", "song_3.ogg", "song_4.ogg"
 ]
@@ -33,13 +32,13 @@ def main():
 
     showDialog = False
 
-    # Startup code
+    # Initialization of the dialog properties
     pygame.init()
     screen = pygame.display.set_mode((750, 650))
     pygame.display.set_caption("Artificial intelligence - Implementation of A* into simple game")
     images = loadImages()
 
-    # The game world.
+    # Create the game world.
     world = World(images, LEVEL['level'])
 
     # Internal clock - used for computing velocities 
@@ -47,13 +46,13 @@ def main():
     clock = pygame.time.Clock()
 
     player_pos = np.array(LEVEL['player'])
-    player = Agent(world, images["boy"], player_pos, MAX_PLAYER_SPEED)
+    player = Agent(world, images["character_1"], player_pos, MAX_PLAYER_SPEED)
 
     enemy_pos = np.array(LEVEL['enemy'])
-    enemy = Agent(world, images["girl"], enemy_pos, MAX_ENEMY_SPEED,
+    enemy = Agent(world, images["enemy"], enemy_pos, MAX_ENEMY_SPEED,
                   is_npc=True)
 
-    # Initially, background music is playing.
+    # Background music configuration.
     backgroundMusic()
 
     # Default behavior.
@@ -68,16 +67,11 @@ def main():
             if event.type == QUIT:
                 exit()
             elif event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
+                if event.key == K_ESCAPE: #quit the game
                     exit()
-                elif event.key == K_m:
-                    backgroundMusic()
-                elif event.key == K_d:
+                elif event.key == K_d: # draw vector from the enemy to the player
                     draw_vectors = not draw_vectors
                     print "Toggled:", draw_vectors
-                    # Magic keys to change in-game behavior.
-                elif event.key == K_w:
-                    behavior = 'wander'
                 # Special case to close off left-most ramp
                 # in hard map.
                 elif event.key == K_x:
@@ -86,14 +80,8 @@ def main():
                     else:
                         LEVEL['level'][1][3] = 'ramp block'
 
-                elif event.key == K_s:
-                    behavior = 'seek'
                 elif event.key == K_a:
                     behavior = 'a*'
-                elif event.key == K_f:
-                    behavior = 'flee'
-                elif event.key == K_v:
-                    behavior = 'avoid'
                 elif event.key == K_r:
                     behavior = 'arrive'
                 elif event.key == K_1:
@@ -111,16 +99,15 @@ def main():
             world = World(images, LEVEL['level'])
 
             player_pos = np.array(LEVEL['player'])
-            player = Agent(world, images["boy"], player_pos, MAX_PLAYER_SPEED)
+            player = Agent(world, images["character_1"], player_pos, MAX_PLAYER_SPEED)
 
             enemy_pos = np.array(LEVEL['enemy'])
-            enemy = Agent(world, images["girl"], enemy_pos, MAX_ENEMY_SPEED,
+            enemy = Agent(world, images["enemy"], enemy_pos, MAX_ENEMY_SPEED,
                           is_npc=True)
 
             level_change = False
             pass
 
-        # Handle movement.
         pressed_keys = pygame.key.get_pressed()
 
         # Compute the vector indicating the acceleration that the
@@ -146,7 +133,6 @@ def main():
 
         player.update(acceleration, time_passed_seconds)
 
-        # This is where the magic happens.
         executeAIBehavior(behavior, enemy, player, time_passed_seconds)
 
         # Render to intermediate memory buffer.
@@ -170,24 +156,12 @@ def main():
 def executeAIBehavior(behavior, enemy, player, time_passed_seconds):
     global apath # For drawing overlays.
 
-    if behavior == 'wander':
-        ai.wander(enemy, time_passed_seconds)
-
-    elif behavior == 'seek':
-        ai.seek(enemy, player.position, time_passed_seconds)
-
-    elif behavior == 'a*':
+    if behavior == 'a*':
         apath = astar.go(enemy.position, player.position, world)
         waypoint = astar.goNext(apath, world)
 
         if waypoint is not None:
             ai.seek(enemy, waypoint, time_passed_seconds)
-
-    elif behavior == 'flee':
-        ai.flee(enemy, player.position, time_passed_seconds)
-
-    elif behavior == 'avoid':
-        ai.avoid(enemy, player.position, time_passed_seconds)
 
     elif behavior == 'arrive':
         ai.arrive(enemy, player.position, time_passed_seconds)
@@ -195,11 +169,8 @@ def executeAIBehavior(behavior, enemy, player, time_passed_seconds):
 
 def loadImages():
     images = {
-        "boy": pygame.image.load("../res/Character Boy.png"),
-        "girl": pygame.image.load("../res/Character Pink Girl.png"),
-        "enemy": pygame.image.load("../res/Enemy Bug.png"),
-        "heart": pygame.image.load("../res/Heart.png"),
-        "chest closed": pygame.image.load("../res/Chest Closed.png"),
+        "character_1": pygame.image.load("../res/ch_3.png"),
+        "enemy": pygame.image.load("../res/ch_2.png"),
         "gem": pygame.image.load("../res/Gem Blue.png"),
         "key": pygame.image.load("../res/Gem Blue.png"),
         "dirt block": pygame.image.load("../res/Dirt Block.png"),
@@ -211,17 +182,8 @@ def loadImages():
         "wall block": pygame.image.load("../res/Wall Block.png"),
         "wall block tall": pygame.image.load("../res/Wall Block Tall.png"),
         "ramp west": pygame.image.load("../res/Ramp West.png"),
-        "tree short": pygame.image.load("../res/Tree Short.png"),
-        "speech bubble": pygame.image.load("../res/SpeechBubble.png")
+        "tree short": pygame.image.load("../res/Tree Short.png")
     }
-
-    # Key
-    images["key"] = pygame.transform.scale(images["key"],
-        (images["key"].get_width() / 2, images["key"].get_height() / 2))
-
-    # Heart
-    images["heart"] = pygame.transform.scale(images["heart"],
-        (images["heart"].get_width() / 2, images["heart"].get_height() / 2))
 
     # Gem
     images["gem"] = pygame.transform.scale(images["gem"],
@@ -269,7 +231,7 @@ def dialogBox(image, text):
 
     box.blit(image, (10, -30))
 
-    font = pygame.font.Font("../res/Jet Set.ttf", 36)
+    font = pygame.font.Font("../res/Jim.ttf", 36)
     text = font.render(text, True, (0, 0, 0))
     box.blit(text, (150, 50))
 
@@ -298,7 +260,7 @@ def refreshBlit():
     screen.fill((0, 0, 0))
 
     # Display level, and display behavior.
-    font = pygame.font.Font("../res/Jet Set.ttf", 36)
+    font = pygame.font.Font("../res/Jim.ttf", 36)
     text = font.render(LEVEL['name'], True, (255, 255, 255))
     tiles.blit(text, (0, 0))
 
