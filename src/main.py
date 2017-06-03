@@ -17,7 +17,7 @@ MAX_ENEMY_SPEED = 20
 # Audio TRACKS; easy to implement. Get TRACKS at:
 # http://www.nosoapradio.us/
 TRACKS = [
-    "DST-Greensky.mp3", "DST-Travel.mp3"
+    "song_1.mp3", "song_2.mp3", "song_3.mp3", "song_4.mp3"
 ]
 
 
@@ -35,7 +35,7 @@ def main():
 
     # Startup code
     pygame.init()
-    screen = pygame.display.set_mode((800, 700))
+    screen = pygame.display.set_mode((750, 650))
     pygame.display.set_caption("Artificial intelligence - Implementation of A* into simple game")
     images = loadImages()
 
@@ -288,7 +288,7 @@ def backgroundMusic():
     if pygame.mixer.music.get_busy():
         pygame.mixer.music.fadeout(1000)
     else:
-        pygame.mixer.music.load("../res/" + random.choice(TRACKS))
+        pygame.mixer.music.load("../res/music/" + random.choice(TRACKS))
         pygame.mixer.music.play(-1)
 
 
